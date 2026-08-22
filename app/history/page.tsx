@@ -14,7 +14,8 @@ export default async function HistoryPage() {
   }
 
   const manual = getManualHistory().map((m) => ({ year: m.year, champion: m.champion, source: "Manual" as const }));
-  const all = [...auto, ...manual].sort((a, b) => b.year - a.year);
+  const manualYears = new Set(manual.map((m) => m.year));
+  const all = [...auto.filter((a) => !manualYears.has(a.year)), ...manual].sort((a, b) => b.year - a.year);
 
   return (
     <div>

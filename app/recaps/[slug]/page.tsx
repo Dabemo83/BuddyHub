@@ -27,7 +27,8 @@ export default async function RecapPage({ params }: { params: Promise<{ slug: st
         <StatCard emoji="😬" label="Loser of the week" value={nameFor(a.loser.teamId)} sub={`${a.loser.score.toFixed(1)} pts`} />
       </div>
     );
-  } catch {
+  } catch (e) {
+    console.error("weeklyAwards failed for", slug, e);
     awardsBlock = <p className="text-sm text-slate-500 my-6">Awards unavailable (ESPN data not reachable for this week).</p>;
   }
 
