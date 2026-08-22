@@ -6,7 +6,7 @@ const PUBLIC_PATHS = ["/login", "/api/login"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) return NextResponse.next();
+  if (PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"))) return NextResponse.next();
 
   const token = req.cookies.get(AUTH_COOKIE)?.value ?? "";
   const password = process.env.SITE_PASSWORD ?? "";
