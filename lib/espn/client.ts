@@ -1,8 +1,8 @@
 import { normalizeSeason } from "./normalize";
 import type { SeasonData } from "./types";
 
-const BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
-const CACHE_SECONDS = 60 * 60 * 3; // 3 hours
+export const BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
+export const CACHE_SECONDS = 60 * 60 * 3; // 3 hours
 
 export function requireEnv(name: string): string {
   const v = process.env[name];

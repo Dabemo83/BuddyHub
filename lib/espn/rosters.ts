@@ -1,7 +1,5 @@
-import { requireEnv } from "./client";
+import { requireEnv, BASE, CACHE_SECONDS } from "./client";
 
-const BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
-const CACHE_SECONDS = 60 * 60 * 3; // 3 hours, matching client.ts
 const BENCH_SLOTS = new Set([20, 21]); // 20 = bench, 21 = IR
 
 interface RawEntry { lineupSlotId: number; playerPoolEntry?: { appliedStatTotal?: number } }
