@@ -1,0 +1,27 @@
+{
+  "schedule": [
+    {
+      "matchupPeriodId": 1,
+      "home": {
+        "teamId": 1,
+        "rosterForCurrentScoringPeriod": {
+          "entries": [
+            { "lineupSlotId": 0, "playerPoolEntry": { "appliedStatTotal": 20.0 } },
+            { "lineupSlotId": 2, "playerPoolEntry": { "appliedStatTotal": 12.0 } },
+            { "lineupSlotId": 20, "playerPoolEntry": { "appliedStatTotal": 15.5 } },
+            { "lineupSlotId": 21, "playerPoolEntry": { "appliedStatTotal": 4.5 } }
+          ]
+        }
+      },
+      "away": {
+        "teamId": 2,
+        "rosterForCurrentScoringPeriod": {
+          "entries": [
+            { "lineupSlotId": 0, "playerPoolEntry": { "appliedStatTotal": 10.0 } },
+            { "lineupSlotId": 20, "playerPoolEntry": { "appliedStatTotal": 30.0 } }
+          ]
+        }
+      }
+    }
+  ]
+}

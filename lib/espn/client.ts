@@ -4,7 +4,7 @@ import type { SeasonData } from "./types";
 const BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl";
 const CACHE_SECONDS = 60 * 60 * 3; // 3 hours
 
-function requireEnv(name: string): string {
+export function requireEnv(name: string): string {
   const v = process.env[name];
   if (!v) throw new Error(`Missing required env var: ${name}`);
   return v;
