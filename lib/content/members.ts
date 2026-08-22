@@ -12,7 +12,10 @@ export function getMembers(): Member[] {
   if (!fs.existsSync(DIR)) return [];
   return fs.readdirSync(DIR)
     .filter((f) => f.endsWith(".json"))
-    .map((f) => JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8")) as Member)
+    .map((f) => {
+      const data = JSON.parse(fs.readFileSync(path.join(DIR, f), "utf8")) as Member;
+      return { ...data, slug: f.replace(/\.json$/, "") };
+    })
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 

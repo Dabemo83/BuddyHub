@@ -15,7 +15,7 @@ export function getRecaps(): Recap[] {
     .map((f) => {
       const parsed = matter(fs.readFileSync(path.join(DIR, f), "utf8"));
       const d = parsed.data as { year: number; week: number; title: string; date: string };
-      return { slug: f.replace(/\.md$/, ""), body: parsed.content.trim(), ...d };
+      return { slug: f.replace(/\.md$/, ""), body: parsed.content.trim(), ...d, date: String(d.date) };
     })
     .sort((a, b) => b.year * 100 + b.week - (a.year * 100 + a.week));
 }
