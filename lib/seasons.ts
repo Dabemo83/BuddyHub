@@ -1,8 +1,9 @@
 import { fetchSeason, fetchSeasons } from "@/lib/espn/client";
 import type { SeasonData } from "@/lib/espn/types";
 
-// The first season the league existed on ESPN. Adjust once the real value is known.
-export const FIRST_ESPN_SEASON = 2018;
+// The first season the league existed on ESPN. Seasons before 2018 use ESPN's
+// legacy leagueHistory endpoint and may be spotty; failures are skipped gracefully.
+export const FIRST_ESPN_SEASON = 2012;
 
 export function currentSeason(): number {
   return new Date().getFullYear();
