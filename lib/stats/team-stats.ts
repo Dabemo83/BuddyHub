@@ -20,14 +20,19 @@ export function standings(season: SeasonData): Team[] {
 }
 
 export function highestScoringWeek(seasons: SeasonData[]): TeamWeek {
-  return teamWeeks(seasons).reduce((best, r) => (r.score > best.score ? r : best));
+  const rows = teamWeeks(seasons);
+  if (rows.length === 0) throw new Error("No completed matchups");
+  return rows.reduce((best, r) => (r.score > best.score ? r : best));
 }
 
 export function lowestScoringWeek(seasons: SeasonData[]): TeamWeek {
-  return teamWeeks(seasons).reduce((worst, r) => (r.score < worst.score ? r : worst));
+  const rows = teamWeeks(seasons);
+  if (rows.length === 0) throw new Error("No completed matchups");
+  return rows.reduce((worst, r) => (r.score < worst.score ? r : worst));
 }
 
 export function mostPointsInLoss(seasons: SeasonData[]): TeamWeek {
   const losers = teamWeeks(seasons).filter((r) => !r.won);
+  if (losers.length === 0) throw new Error("No completed losses");
   return losers.reduce((best, r) => (r.score > best.score ? r : best));
 }

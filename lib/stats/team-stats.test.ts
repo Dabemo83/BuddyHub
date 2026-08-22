@@ -22,6 +22,7 @@ describe("team stats", () => {
   it("lowestScoringWeek ignores incomplete games", () => {
     const lo = lowestScoringWeek(seasons);
     expect(lo.score).toBeCloseTo(90.0);
+    expect(lo.teamId).toBe(3);
   });
 
   it("mostPointsInLoss finds the highest-scoring loser", () => {

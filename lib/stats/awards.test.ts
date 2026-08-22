@@ -15,6 +15,7 @@ describe("weeklyAwards", () => {
 
   it("names the loser of the week (lowest score)", () => {
     expect(awards.loser.teamId).toBe(3);
+    expect(awards.loser.score).toBeCloseTo(90.0);
   });
 
   it("finds the biggest blowout margin", () => {
