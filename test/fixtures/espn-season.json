@@ -17,6 +17,7 @@
     { "matchupPeriodId": 1, "winner": "HOME", "home": { "teamId": 1, "totalPoints": 120.5 }, "away": { "teamId": 2, "totalPoints": 110.0 } },
     { "matchupPeriodId": 1, "winner": "AWAY", "home": { "teamId": 3, "totalPoints": 90.0 }, "away": { "teamId": 2, "totalPoints": 100.0 } },
     { "matchupPeriodId": 2, "winner": "HOME", "home": { "teamId": 1, "totalPoints": 130.0 }, "away": { "teamId": 3, "totalPoints": 90.0 } },
-    { "matchupPeriodId": 2, "winner": "UNDECIDED", "home": { "teamId": 2, "totalPoints": 0 }, "away": { "teamId": 1, "totalPoints": 0 } }
+    { "matchupPeriodId": 2, "winner": "UNDECIDED", "home": { "teamId": 2, "totalPoints": 0 }, "away": { "teamId": 1, "totalPoints": 0 } },
+    { "matchupPeriodId": 3, "winner": "NONE", "home": { "teamId": 1 }, "away": { "teamId": 3 } }
   ]
 }

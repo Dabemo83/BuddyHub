@@ -44,7 +44,7 @@ export function normalizeSeason(raw: RawSeason): SeasonData {
       awayTeamId: g.away!.teamId,
       homeScore: g.home!.totalPoints ?? 0,
       awayScore: g.away!.totalPoints ?? 0,
-      completed: g.winner !== undefined && g.winner !== "UNDECIDED",
+      completed: g.winner === "HOME" || g.winner === "AWAY" || g.winner === "TIE",
     }));
 
   return { year: raw.seasonId, teams, matchups };
