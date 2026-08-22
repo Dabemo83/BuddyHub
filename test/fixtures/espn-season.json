@@ -1,0 +1,22 @@
+{
+  "seasonId": 2024,
+  "teams": [
+    { "id": 1, "name": "Team Alpha", "owners": ["{OWNER-1}"],
+      "record": { "overall": { "wins": 2, "losses": 0, "ties": 0, "pointsFor": 250.5, "pointsAgainst": 190.0 } } },
+    { "id": 2, "name": "Team Bravo", "owners": ["{OWNER-2}"],
+      "record": { "overall": { "wins": 1, "losses": 1, "ties": 0, "pointsFor": 210.0, "pointsAgainst": 220.5 } } },
+    { "id": 3, "name": "Team Charlie", "owners": ["{OWNER-3}"],
+      "record": { "overall": { "wins": 0, "losses": 2, "ties": 0, "pointsFor": 180.0, "pointsAgainst": 230.0 } } }
+  ],
+  "members": [
+    { "id": "{OWNER-1}", "firstName": "Al", "lastName": "Pha" },
+    { "id": "{OWNER-2}", "firstName": "Bra", "lastName": "Vo" },
+    { "id": "{OWNER-3}", "firstName": "Char", "lastName": "Lie" }
+  ],
+  "schedule": [
+    { "matchupPeriodId": 1, "winner": "HOME", "home": { "teamId": 1, "totalPoints": 120.5 }, "away": { "teamId": 2, "totalPoints": 110.0 } },
+    { "matchupPeriodId": 1, "winner": "AWAY", "home": { "teamId": 3, "totalPoints": 90.0 }, "away": { "teamId": 2, "totalPoints": 100.0 } },
+    { "matchupPeriodId": 2, "winner": "HOME", "home": { "teamId": 1, "totalPoints": 130.0 }, "away": { "teamId": 3, "totalPoints": 90.0 } },
+    { "matchupPeriodId": 2, "winner": "UNDECIDED", "home": { "teamId": 2, "totalPoints": 0 }, "away": { "teamId": 1, "totalPoints": 0 } }
+  ]
+}
