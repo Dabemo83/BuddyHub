@@ -6,12 +6,12 @@ export default function LuckTable({ rows }: { rows: (TeamLuck & { name: string }
       <thead className="text-left text-slate-400 border-b border-slate-800">
         <tr>
           <th scope="col" className="py-2">Team</th>
-          <th scope="col" className="text-right">PF</th>
-          <th scope="col" className="text-right">PA</th>
-          <th scope="col" className="text-right">PF/G</th>
-          <th scope="col" className="text-right">xW</th>
-          <th scope="col" className="text-right">W</th>
-          <th scope="col" className="text-right">Luck</th>
+          <th scope="col" className="py-2 text-right">PF</th>
+          <th scope="col" className="py-2 text-right">PA</th>
+          <th scope="col" className="py-2 text-right">PF/G</th>
+          <th scope="col" className="py-2 text-right">xW</th>
+          <th scope="col" className="py-2 text-right">W</th>
+          <th scope="col" className="py-2 text-right">Luck</th>
         </tr>
       </thead>
       <tbody>

@@ -4,12 +4,12 @@ import { loadAllSeasons, currentSeason } from "@/lib/seasons";
 import { highestScoringWeek, lowestScoringWeek, mostPointsInLoss } from "@/lib/stats/team-stats";
 import { longestStreak } from "@/lib/stats/streaks";
 import { seasonLuck, type TeamLuck } from "@/lib/stats/luck";
-import { fetchWeekBench } from "@/lib/espn/rosters";
+import { fetchWeekBench, type TeamBench } from "@/lib/espn/rosters";
 import type { SeasonData } from "@/lib/espn/types";
 
 export const dynamic = "force-dynamic";
 
-type BenchRecord = { teamId: number; week: number; benchPoints: number };
+type BenchRecord = TeamBench & { week: number };
 
 async function benchRecordForSeason(season: SeasonData): Promise<BenchRecord | null> {
   const weeks = [...new Set(season.matchups.filter((m) => m.completed).map((m) => m.week))];
@@ -43,11 +43,28 @@ export default async function StatsPage() {
   const nameFor = (year: number, teamId: number) =>
     seasons.find((s) => s.year === year)?.teams.find((t) => t.id === teamId)?.name ?? `Team ${teamId}`;
 
-  const hi = highestScoringWeek(seasons);
-  const lo = lowestScoringWeek(seasons);
-  const mpl = mostPointsInLoss(seasons);
-  const winStreak = longestStreak(seasons, "win");
-  const loseStreak = longestStreak(seasons, "loss");
+  // All-time record stats throw when there are zero completed matchups (e.g. a
+  // brand-new league before week 1). Guard so the page degrades instead of crashing.
+  let records:
+    | {
+        hi: ReturnType<typeof highestScoringWeek>;
+        lo: ReturnType<typeof lowestScoringWeek>;
+        mpl: ReturnType<typeof mostPointsInLoss>;
+        winStreak: ReturnType<typeof longestStreak>;
+        loseStreak: ReturnType<typeof longestStreak>;
+      }
+    | null = null;
+  try {
+    records = {
+      hi: highestScoringWeek(seasons),
+      lo: lowestScoringWeek(seasons),
+      mpl: mostPointsInLoss(seasons),
+      winStreak: longestStreak(seasons, "win"),
+      loseStreak: longestStreak(seasons, "loss"),
+    };
+  } catch {
+    records = null;
+  }
 
   const current = seasons.find((s) => s.year === currentSeason());
   const luckRows: (TeamLuck & { name: string })[] = current
@@ -60,24 +77,30 @@ export default async function StatsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold mb-4">Stats — All-Time</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <StatCard emoji="🔥" label="Highest week ever" value={hi.score.toFixed(1)}
-            sub={`${nameFor(hi.year, hi.teamId)} · ${hi.year} Wk ${hi.week}`} />
-          <StatCard emoji="🥶" label="Lowest week ever" value={lo.score.toFixed(1)}
-            sub={`${nameFor(lo.year, lo.teamId)} · ${lo.year} Wk ${lo.week}`} />
-          <StatCard emoji="💔" label="Most points in a loss" value={mpl.score.toFixed(1)}
-            sub={`${nameFor(mpl.year, mpl.teamId)} · ${mpl.year} Wk ${mpl.week}`} />
-          <StatCard emoji="📈" label="Longest win streak" value={`${winStreak.length} games`}
-            sub={`${nameFor(winStreak.year, winStreak.teamId)} · ${winStreak.year}`} />
-          <StatCard emoji="📉" label="Longest lose streak" value={`${loseStreak.length} games`}
-            sub={`${nameFor(loseStreak.year, loseStreak.teamId)} · ${loseStreak.year}`} />
-          {bench && (
-            <StatCard emoji="🪑" label="Most points on the bench" value={bench.benchPoints.toFixed(1)}
-              sub={`${nameFor(current!.year, bench.teamId)} · ${current!.year} Wk ${bench.week}`} />
-          )}
-        </div>
-        {current && !bench && (
-          <p className="text-sm text-slate-500 mt-3">Bench data unavailable right now.</p>
+        {records ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <StatCard emoji="🔥" label="Highest week ever" value={records.hi.score.toFixed(1)}
+                sub={`${nameFor(records.hi.year, records.hi.teamId)} · ${records.hi.year} Wk ${records.hi.week}`} />
+              <StatCard emoji="🥶" label="Lowest week ever" value={records.lo.score.toFixed(1)}
+                sub={`${nameFor(records.lo.year, records.lo.teamId)} · ${records.lo.year} Wk ${records.lo.week}`} />
+              <StatCard emoji="💔" label="Most points in a loss" value={records.mpl.score.toFixed(1)}
+                sub={`${nameFor(records.mpl.year, records.mpl.teamId)} · ${records.mpl.year} Wk ${records.mpl.week}`} />
+              <StatCard emoji="📈" label="Longest win streak" value={`${records.winStreak.length} games`}
+                sub={`${nameFor(records.winStreak.year, records.winStreak.teamId)} · ${records.winStreak.year}`} />
+              <StatCard emoji="📉" label="Longest lose streak" value={`${records.loseStreak.length} games`}
+                sub={`${nameFor(records.loseStreak.year, records.loseStreak.teamId)} · ${records.loseStreak.year}`} />
+              {bench && current && (
+                <StatCard emoji="🪑" label="Most points on the bench" value={bench.benchPoints.toFixed(1)}
+                  sub={`${nameFor(current.year, bench.teamId)} · ${current.year} Wk ${bench.week}`} />
+              )}
+            </div>
+            {current && !bench && (
+              <p className="text-sm text-slate-500 mt-3">Bench data unavailable right now.</p>
+            )}
+          </>
+        ) : (
+          <p className="text-slate-400 text-sm">No completed games yet — all-time records will appear once the season is underway.</p>
         )}
       </div>
 
