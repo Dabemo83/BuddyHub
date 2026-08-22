@@ -22,6 +22,9 @@ export function seasonLuck(season: SeasonData): TeamLuck[] {
 
   const expected = new Map<number, number>();
   const played = new Map<number, number>();
+  // All-play is computed over teams that COMPLETED a game that week. Mid-week
+  // (some matchups still in progress) the field is smaller, so expected wins for
+  // that week are approximate; this self-corrects once the week fully completes.
   for (const scores of weeks.values()) {
     for (const me of scores) {
       const others = scores.filter((o) => o !== me);
