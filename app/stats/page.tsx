@@ -1,5 +1,6 @@
 import StatCard from "@/app/components/StatCard";
 import LuckTable from "@/app/components/LuckTable";
+import SectionHeading from "@/app/components/SectionHeading";
 import { loadAllSeasons, currentSeason } from "@/lib/seasons";
 import { highestScoringWeek, lowestScoringWeek, mostPointsInLoss } from "@/lib/stats/team-stats";
 import { longestStreak } from "@/lib/stats/streaks";
@@ -34,8 +35,8 @@ export default async function StatsPage() {
   } catch {
     return (
       <div>
-        <h1 className="text-2xl font-bold mb-4">Stats</h1>
-        <p className="text-red-400">Couldn&apos;t load stats — check the ESPN connection (cookies may have expired).</p>
+        <SectionHeading>Stats</SectionHeading>
+        <p className="text-[#a3401f]">Couldn&apos;t load stats — check the ESPN connection (cookies may have expired).</p>
       </div>
     );
   }
@@ -73,47 +74,57 @@ export default async function StatsPage() {
 
   const bench = current ? await benchRecordForSeason(current) : null;
 
-  return (
-    <div className="space-y-8">
+  if (!records) {
+    return (
       <div>
-        <h1 className="text-2xl font-bold mb-4">Stats — All-Time</h1>
-        {records ? (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <StatCard emoji="🔥" label="Highest week ever" value={records.hi.score.toFixed(1)}
-                sub={`${nameFor(records.hi.year, records.hi.teamId)} · ${records.hi.year} Wk ${records.hi.week}`} />
-              <StatCard emoji="🥶" label="Lowest week ever" value={records.lo.score.toFixed(1)}
-                sub={`${nameFor(records.lo.year, records.lo.teamId)} · ${records.lo.year} Wk ${records.lo.week}`} />
-              <StatCard emoji="💔" label="Most points in a loss" value={records.mpl.score.toFixed(1)}
-                sub={`${nameFor(records.mpl.year, records.mpl.teamId)} · ${records.mpl.year} Wk ${records.mpl.week}`} />
-              <StatCard emoji="📈" label="Longest win streak" value={`${records.winStreak.length} games`}
-                sub={`${nameFor(records.winStreak.year, records.winStreak.teamId)} · ${records.winStreak.year}`} />
-              <StatCard emoji="📉" label="Longest lose streak" value={`${records.loseStreak.length} games`}
-                sub={`${nameFor(records.loseStreak.year, records.loseStreak.teamId)} · ${records.loseStreak.year}`} />
-              {bench && current && (
-                <StatCard emoji="🪑" label="Most points on the bench" value={bench.benchPoints.toFixed(1)}
-                  sub={`${nameFor(current.year, bench.teamId)} · ${current.year} Wk ${bench.week}`} />
-              )}
-            </div>
-            {current && !bench && (
-              <p className="text-sm text-slate-500 mt-3">Bench data unavailable right now.</p>
-            )}
-          </>
-        ) : (
-          <p className="text-slate-400 text-sm">No completed games yet — all-time records will appear once the season is underway.</p>
+        <SectionHeading>Stats — All-Time</SectionHeading>
+        <p className="text-muted text-sm">No completed games yet — all-time records will appear once the season is underway.</p>
+      </div>
+    );
+  }
+
+  const { hi, lo, mpl, winStreak, loseStreak } = records;
+
+  return (
+    <div className="space-y-10">
+      <div>
+        <SectionHeading>Stats — All-Time</SectionHeading>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="sm:col-span-2 lg:col-span-1 lg:row-span-2">
+            <StatCard
+              variant="feature"
+              emoji="🔥"
+              label="Highest week ever"
+              value={hi.score.toFixed(1)}
+              sub={`${nameFor(hi.year, hi.teamId)} · ${hi.year} Wk ${hi.week}`}
+            />
+          </div>
+          <StatCard emoji="🥶" label="Lowest week ever" value={lo.score.toFixed(1)}
+            sub={`${nameFor(lo.year, lo.teamId)} · ${lo.year} Wk ${lo.week}`} />
+          <StatCard emoji="💔" label="Most points in a loss" value={mpl.score.toFixed(1)}
+            sub={`${nameFor(mpl.year, mpl.teamId)} · ${mpl.year} Wk ${mpl.week}`} />
+          <StatCard emoji="📈" label="Longest win streak" value={`${winStreak.length} games`}
+            sub={`${nameFor(winStreak.year, winStreak.teamId)} · ${winStreak.year}`} />
+          <StatCard emoji="📉" label="Longest lose streak" value={`${loseStreak.length} games`}
+            sub={`${nameFor(loseStreak.year, loseStreak.teamId)} · ${loseStreak.year}`} />
+          {bench && (
+            <StatCard emoji="🪑" label="Most points on the bench" value={bench.benchPoints.toFixed(1)}
+              sub={`${nameFor(current!.year, bench.teamId)} · ${current!.year} Wk ${bench.week}`} />
+          )}
+        </div>
+        {current && !bench && (
+          <p className="text-sm text-muted mt-3">Bench data unavailable right now.</p>
         )}
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold mb-3">
-          {current ? `${current.year} Luck & Scoring` : "Luck & Scoring"}
-        </h2>
+        <SectionHeading>{current ? `${current.year} Luck & Scoring` : "Luck & Scoring"}</SectionHeading>
         {luckRows.length > 0 ? (
           <LuckTable rows={luckRows} />
         ) : (
-          <p className="text-slate-400 text-sm">No games played yet this season.</p>
+          <p className="text-muted text-sm">No games played yet this season.</p>
         )}
-        <p className="text-xs text-slate-500 mt-3">
+        <p className="text-xs text-muted mt-3">
           xW = expected wins (all-play). Luck = actual wins minus expected wins. Player-level stats coming soon.
         </p>
       </div>

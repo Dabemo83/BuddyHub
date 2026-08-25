@@ -1,6 +1,7 @@
 import { loadAllSeasons } from "@/lib/seasons";
 import { standings } from "@/lib/stats/team-stats";
 import { getManualHistory } from "@/lib/content/history";
+import SectionHeading from "@/app/components/SectionHeading";
 
 export const dynamic = "force-dynamic";
 
@@ -19,16 +20,28 @@ export default async function HistoryPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">League History</h1>
-      <p className="text-sm text-slate-500 mb-4">
-        Note: &quot;champion&quot; here is the regular-season points leader. Update to playoff winners via manual history if desired.
+      <SectionHeading>Roll of Honor</SectionHeading>
+      <p className="text-sm text-muted mb-4">
+        &quot;Champion&quot; here is the regular-season points leader. Update to playoff winners via manual history if desired.
       </p>
-      <ul className="divide-y divide-slate-800">
+      <ul className="rounded-xl bg-paper-2 border border-brass/40 overflow-hidden">
         {all.map((r) => (
-          <li key={`${r.year}-${r.source}`} className="py-3 flex justify-between">
-            <span className="font-medium">🏆 {r.year}</span>
-            <span>{r.champion}</span>
-            <span className="text-xs text-slate-500">{r.source}</span>
+          <li
+            key={`${r.year}-${r.source}`}
+            className="flex items-center justify-between px-4 py-3 border-b border-brass/15 last:border-0"
+          >
+            <span className="text-brass text-lg font-bold w-16" style={{ fontFamily: "var(--font-display)", fontVariantNumeric: "tabular-nums" }}>
+              {r.year}
+            </span>
+            <span className="flex-1 uppercase tracking-[0.02em]" style={{ fontFamily: "var(--font-display)" }}>
+              🏆 {r.champion}
+            </span>
+            <span
+              className="text-[9px] uppercase tracking-[0.14em] text-cream bg-forest rounded px-2 py-0.5"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              {r.source}
+            </span>
           </li>
         ))}
       </ul>

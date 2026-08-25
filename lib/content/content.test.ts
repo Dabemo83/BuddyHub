@@ -6,8 +6,8 @@ import { getManualHistory } from "@/lib/content/history";
 describe("content loaders", () => {
   it("loads members from JSON", () => {
     const members = getMembers();
-    expect(members.some((m) => m.slug === "al-pha")).toBe(true);
-    expect(getMember("al-pha")?.name).toBe("Al Pha");
+    expect(members.some((m) => m.slug === "daniel-morrissey")).toBe(true);
+    expect(getMember("daniel-morrissey")?.name).toBe("Daniel Morrissey");
   });
 
   it("loads and parses recap markdown with front-matter", () => {
